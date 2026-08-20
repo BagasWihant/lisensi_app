@@ -45,7 +45,7 @@ export default async function DashboardPage() {
               
               <div className="flex justify-between items-center mt-4 border-t border-divider-soft pt-4">
                 <div className="flex items-center gap-3">
-                  <ToggleSwitch id={license.id as number} initialStatus={license.status as string} />
+                  <ToggleSwitch id={license.id as number} initialStatus={license.status as 'on' | 'off'} />
                   <span className="text-[14px] text-ink-muted-80">
                     {license.status === 'on' ? 'On' : 'Off'}
                   </span>

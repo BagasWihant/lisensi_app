@@ -35,8 +35,8 @@ export default async function LicenseDetailPage({ params }: { params: Promise<{ 
 
       <main className="max-w-[1024px] mx-auto pt-[40px] px-6">
         <div className="mb-10">
-          <h1 className="text-[40px] font-semibold tracking-tight">{license.name || 'Unknown'}</h1>
-          <p className="text-[17px] text-ink-muted-48">{license.license_id}</p>
+          <h1 className="text-[40px] font-semibold tracking-tight">{(license.name as string) || 'Unknown'}</h1>
+          <p className="text-[17px] text-ink-muted-48">{license.license_id as string}</p>
         </div>
 
         <div className="bg-canvas border border-hairline rounded-lg p-6 shadow-sm">
@@ -45,7 +45,7 @@ export default async function LicenseDetailPage({ params }: { params: Promise<{ 
           </div>
 
           <div className="mb-8">
-            <AddEnvForm licenseId={license.id} />
+            <AddEnvForm licenseId={license.id as number} />
           </div>
 
           {envEntries.length > 0 ? (
@@ -64,7 +64,7 @@ export default async function LicenseDetailPage({ params }: { params: Promise<{ 
                       <td className="px-4 py-3 font-mono text-ink">{key}</td>
                       <td className="px-4 py-3 font-mono text-ink">{String(value)}</td>
                       <td className="px-4 py-3 text-right">
-                        <form action={removeEnvironment.bind(null, license.id, key)}>
+                        <form action={removeEnvironment.bind(null, license.id as number, key)}>
                           <button type="submit" className="text-red-500 hover:underline">
                             Remove
                           </button>
