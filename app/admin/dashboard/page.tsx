@@ -36,6 +36,15 @@ export default async function DashboardPage() {
                 <p className="text-[17px] font-semibold text-ink tracking-tight break-all group-hover:text-primary transition-colors">
                   {license.license_id as string}
                 </p>
+                {license.machine_id ? (
+                  <p className="text-[12px] mt-1 text-ink-muted-80 font-mono truncate" title={license.machine_id as string}>
+                    Device: {license.machine_id as string}
+                  </p>
+                ) : (
+                  <p className="text-[12px] mt-1 text-ink-muted-48 italic">
+                    Not bound to any device
+                  </p>
+                )}
                 <div className="mt-2">
                   <span className={`inline-flex items-center px-2 py-1 rounded-sm text-[12px] font-medium ${license.status === 'on' ? 'bg-[#e3f2fd] text-primary' : 'bg-[#f5f5f7] text-ink-muted-48'}`}>
                     {license.status === 'on' ? 'Active' : 'Inactive'}

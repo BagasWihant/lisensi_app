@@ -36,7 +36,18 @@ export default async function LicenseDetailPage({ params }: { params: Promise<{ 
       <main className="max-w-[1024px] mx-auto pt-[40px] px-6">
         <div className="mb-10">
           <h1 className="text-[40px] font-semibold tracking-tight">{(license.name as string) || 'Unknown'}</h1>
-          <p className="text-[17px] text-ink-muted-48">{license.license_id as string}</p>
+          <p className="text-[17px] text-ink-muted-48 mb-3">{license.license_id as string}</p>
+          {license.machine_id ? (
+             <div className="inline-flex items-center gap-2 bg-[#f5f5f7] px-3 py-1.5 rounded-md border border-hairline">
+               <span className="text-[13px] font-medium text-ink-muted-80 uppercase tracking-wider">Device Bound</span>
+               <span className="text-[14px] font-mono text-ink">{license.machine_id as string}</span>
+             </div>
+          ) : (
+             <div className="inline-flex items-center gap-2 bg-canvas px-3 py-1.5 rounded-md border border-hairline border-dashed">
+               <span className="text-[13px] font-medium text-ink-muted-48 uppercase tracking-wider">Unbound</span>
+               <span className="text-[14px] text-ink-muted-48 italic">Ready to be used on a device</span>
+             </div>
+          )}
         </div>
 
         <div className="bg-canvas border border-hairline rounded-lg p-6 shadow-sm">
