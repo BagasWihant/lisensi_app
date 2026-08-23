@@ -34,6 +34,11 @@ export async function deleteLicense(id: number) {
   revalidatePath('/admin/dashboard');
 }
 
+export async function unbindDevice(id: number) {
+  await db.execute('UPDATE licenses SET machine_id = NULL WHERE id = ?', [id]);
+  revalidatePath('/admin/dashboard');
+}
+
 export async function logout() {
   await logoutAction();
   redirect('/admin/login');

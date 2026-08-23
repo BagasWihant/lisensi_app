@@ -1,6 +1,6 @@
 import db from '@/lib/db';
 import Link from 'next/link';
-import { deleteLicense, logout } from './actions';
+import { deleteLicense, logout, unbindDevice } from './actions';
 import GenerateModal from './components/GenerateModal';
 import ToggleSwitch from './components/ToggleSwitch';
 
@@ -60,11 +60,20 @@ export default async function DashboardPage() {
                   </span>
                 </div>
                 
-                <form action={deleteLicense.bind(null, license.id as number)}>
-                  <button type="submit" className="text-red-500 text-[14px] hover:underline">
-                    Delete
-                  </button>
-                </form>
+                <div className="flex gap-4">
+                  {!!license.machine_id && (
+                    <form action={unbindDevice.bind(null, license.id as number)}>
+                      <button type="submit" className="text-amber-600 text-[14px] hover:underline">
+                        Unbind
+                      </button>
+                    </form>
+                  )}
+                  <form action={deleteLicense.bind(null, license.id as number)}>
+                    <button type="submit" className="text-red-500 text-[14px] hover:underline">
+                      Delete
+                    </button>
+                  </form>
+                </div>
               </div>
             </div>
           ))}

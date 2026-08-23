@@ -3,6 +3,26 @@ import db from '@/lib/db';
 
 export async function POST(req: NextRequest) {
   try {
+    const authHeader = req.headers.get('authorization');
+    if (!authHeader || !authHeader.startsWith('Basic ')) {
+      return new NextResponse(null, {
+        status: 401,
+        headers: { 'WWW-Authenticate': 'Basic realm="Secure API"' },
+      });
+    }
+
+    const authValue = authHeader.split(' ')[1];
+    const decodedAuth = Buffer.from(authValue, 'base64').toString('utf-8');
+    const [username, ...passwordParts] = decodedAuth.split(':');
+    const password = passwordParts.join(':');
+
+    const expectedUsername = process.env.API_USERNAME || process.env.ADMIN_USERNAME;
+    const expectedPassword = process.env.API_PASSWORD || process.env.ADMIN_PASSWORD;
+
+    if (!expectedUsername || !expectedPassword || username !== expectedUsername || password !== expectedPassword) {
+      return NextResponse.json({ message: 'Forbidden' }, { status: 403 });
+    }
+
     const body = await req.json();
     const { license_id, machine_id, usage, topup } = body;
 
@@ -67,7 +87,7 @@ export async function POST(req: NextRequest) {
 
         if (finalUsage > 0 || finalTopup > 0) {
           const newBalance = currentBalance + finalTopup - finalUsage;
-          
+
           if (newBalance < 0) {
             return NextResponse.json({
               valid: false,
@@ -75,9 +95,9 @@ export async function POST(req: NextRequest) {
               message: "Insufficient balance."
             }, { status: 403 });
           }
-          
+
           environments['BALANCE'] = newBalance.toFixed(2);
-          
+
           await db.execute(
             'UPDATE licenses SET environments = ? WHERE license_id = ?',
             [JSON.stringify(environments), license_id]
