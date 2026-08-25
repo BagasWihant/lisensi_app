@@ -4,6 +4,8 @@ import { notFound } from 'next/navigation';
 import { removeEnvironment } from './actions';
 import AddEnvForm from './components/AddEnvForm';
 
+export const dynamic = 'force-dynamic';
+
 export default async function LicenseDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const rows = await db.execute('SELECT * FROM licenses WHERE id = ?', [id]) as Record<string, unknown>[];

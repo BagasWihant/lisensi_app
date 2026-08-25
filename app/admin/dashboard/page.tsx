@@ -4,6 +4,8 @@ import { deleteLicense, logout, unbindDevice } from './actions';
 import GenerateModal from './components/GenerateModal';
 import ToggleSwitch from './components/ToggleSwitch';
 
+export const dynamic = 'force-dynamic';
+
 export default async function DashboardPage() {
   const rows = await db.execute('SELECT * FROM licenses ORDER BY created_at DESC') as Record<string, unknown>[];
   const licenses = Array.isArray(rows) ? rows : [];

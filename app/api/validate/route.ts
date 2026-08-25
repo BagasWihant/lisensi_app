@@ -126,10 +126,12 @@ export async function POST(req: NextRequest) {
       message: "License is invalid or does not exist."
     }, { status: 404 });
 
-  } catch (error) {
+  } catch (error: any) {
+    console.error('[API Validate Error]', error);
     return NextResponse.json({
       valid: false,
-      message: "Internal Server Error"
+      message: "Internal Server Error",
+      error: error?.message || String(error)
     }, { status: 500 });
   }
 }
